@@ -1,0 +1,16 @@
+#############################################################################
+##
+#W  small.tbl    Small $AlgebraName             $AllAuthorsListString
+##  
+##  
+#Y  Copyright (C)  $CopyrightYear                            $Author1 
+$OtherAuthorNamesLines
+##
+
+${Prefix}_small_data := [
+# implemented orders
+[$ImplementedOrders],
+# number of $AlgebraName of given order
+$NumberInOrders,
+# the $AlgebraName
+[

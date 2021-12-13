@@ -1,0 +1,20 @@
+<Chapter Label = "Non-isomorphoric Algebras">
+  <Heading>Small Algebras</Heading>
+	
+  <Section Label = "Algebra Functions">
+    <Heading>Accessing Small $AlgebraDisplayName</Heading>	
+	$FunctionName is an accessor function for accessing the complete list of
+	non-isomorphic $AlgebraDisplayName of orders $MinDomainSize to $MaxDomainSize.
+	
+    <#Include Label = "$FunctionName">
+    
+    $OperationNames, as given in Section <Ref Sect="AlgebraDefinition"/>.
+	        
+  </Section>
+  
+  $ADDITIONAL_ACCESSORS
+
+  <!--**********************************************************************-->
+  <!--**********************************************************************-->
+
+</Chapter>

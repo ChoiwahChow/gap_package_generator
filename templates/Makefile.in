@@ -1,0 +1,14 @@
+# sample makefile
+GAPARCH=@GAPARCH@
+
+all: default
+
+default: doc
+
+distclean: clean
+	rm -rf Makefile
+
+doc:
+	gap -A -q -T < makedocrel.g
+
+.PHONY: all default distclean doc
