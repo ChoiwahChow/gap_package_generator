@@ -8,7 +8,7 @@ MakeGAPDocDoc( "doc",     # path to the directory containing the main file
                           # list of (probably source code) files relative 
                           # to path which contain pieces of documentation 
                           # which must be included in the document
-               [ "../PackageInfo.g", "../lib/${Prefix}_small.gd" $ADDITIONAL_GD], 
+               [ "../PackageInfo.g", "../lib/${Prefix}_small.gd" ], 
                "Example", # the name of the book used by GAP's online help
                "../../..",# optional: relative path to the main GAP root 
                           # directory to produce HTML files with relative 

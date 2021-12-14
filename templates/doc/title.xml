@@ -21,6 +21,5 @@
     The &$PackageName; package is a &GAP; package containing methods and data
     to provide the complete list of non-isomorphic models for:<P/>
     $AlgebraDisplayName of orders $MinDomainSize to $MaxDomainSize.<P/>
-    $ADDITIONAL_ALGEBRA
   </Abstract>
 </TitlePage>

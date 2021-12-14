@@ -13,7 +13,6 @@ $OtherAuthorNamesLines
 ##  -------------------------------------------------------------------------
 ReadPackage( "$PackageName", "lib/${Prefix}_utils.gi" );
 ReadPackage( "$PackageName", "lib/${Prefix}_small.gi" );
-$ADDITIONAL_LIBS
 
 
 #E  read.g . . . . . . . . . . . . . . . . . . . . . . . . . . . .  ends here

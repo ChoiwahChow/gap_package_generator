@@ -43,7 +43,7 @@ def write_doc(d, template_file, out_file):
     
 
 def gen_main_doc(AllPersonsLines, OtherAuthorsLines, OtherAuthorNamesLines, AllAuthorsListString, func_names, gap_doc_templates_dir,
-                 gap_top_dir, algebra_names, base_names, display_name_lc, domain_range, prefixes, config):
+                 gap_top_dir, algebra_name, base_name, display_name_lc, domain_range, prefix, config):
     """
     Args:
         func_names (List[str]): list of function names (*, v, ^ etc in the Mace4 algebrar definition).
@@ -54,24 +54,19 @@ def gen_main_doc(AllPersonsLines, OtherAuthorsLines, OtherAuthorNamesLines, AllA
     """
     root_config = config['ROOT']
     input_dir = config['MACE']['InputDir']
-    def_files = config['GAP_PACKAGE']['AlgebraDefinitionFiles'].split(":")
-    algebra_def = list()
-    message = list()
-    for x in range(0, len(def_files)):
-        with open(os.path.join(input_dir, def_files[x])) as fp:
-            algebra_def.append("<P/>".join(fp.read().splitlines()))
-        if "," in func_names[x]:
-            message.append(f"The output algebra is represented by a list of operation tables. The names of the operations are {func_names[x]} (in this order)")
-        else:
-            message.append(f"The output algebra is represented by its operation table for {func_names[x]}")
-    algebraDisplayNames = root_config['AlgebraDisplayNames'].split(":")
+    def_file = config['GAP_PACKAGE']['AlgebraDefinitionFile']
+
+    with open(os.path.join(input_dir, def_file)) as fp:
+        algebra_def = "<P/>".join(fp.read().splitlines())
+    message = f"The output {display_name_lc} are represented by its operation table for {', '.join(func_names)}"
+    algebraDisplayName = root_config['AlgebraDisplayName']
     package_name = root_config['PackageName']
     d = {
         "Author1": root_config['Author1'],
         "Email1": root_config['Email1'],
         "Homepage1": root_config['Homepage1'],
-        'MinDomainSize': domain_range[0][0],
-        'MaxDomainSize': domain_range[0][1],
+        'MinDomainSize': domain_range[0],
+        'MaxDomainSize': domain_range[1],
         "PackageName": package_name,
         "Version": root_config['Version'],
         "Status": root_config['Status'],
@@ -83,29 +78,14 @@ def gen_main_doc(AllPersonsLines, OtherAuthorsLines, OtherAuthorNamesLines, AllA
         "AllPersonsLines": AllPersonsLines,
         "OtherAuthorNamesLines": OtherAuthorNamesLines,
         "AllAuthorsListString": AllAuthorsListString,
-        "Prefix": prefixes[0],
-        "AlgebraName": algebra_names[0],
-        "AlgebraDisplayName": algebraDisplayNames[0],
-        "AlgebraDisplayNameLowerCase": display_name_lc[0],
-        "FunctionName": f"AllSmall{base_names[0]}",
-        "OperationNames": message[0],
-        "AlgebraDefinition": algebra_def[0],
-        "ALGEBRA_RELATIONSHIP": config['GAP_PACKAGE']['AlgebraRelationship']
-    }    
-    d['ADDITIONAL_LIBS'] = ""
-    d['ADDITIONAL_GD'] = ""
-    d['ADDITIONAL_ALGEBRA'] = ""
-    d['ADDITIONAL_ALGEBRA_DEFINITION'] = ""
-    d['ADDITIONAL_FUNCTIONS'] = ""
-    d['ADDITIONAL_ACCESSORS'] = ""
-    for pos in range(1, len(prefixes)):
-        d['ADDITIONAL_LIBS'] = f'{d["ADDITIONAL_LIBS"]}\nReadPackage( "{package_name}", "lib/{prefixes[pos]}_utils.gi" );\nReadPackage( "{package_name}", "lib/{prefixes[pos]}_small.gi" );\n'
-        d['ADDITIONAL_GD'] = f'{d["ADDITIONAL_GD"]}, "../lib/{prefixes[pos]}_small.gd"'
-        d['ADDITIONAL_ALGEBRA'] = f'{d["ADDITIONAL_ALGEBRA"]}{algebraDisplayNames[pos]} of orders {domain_range[pos][0]} to {domain_range[pos][1]}.<P/>\n'
-        d['ADDITIONAL_ALGEBRA_DEFINITION'] = f'{d["ADDITIONAL_ALGEBRA_DEFINITION"]}\n<Subsection Label = "AlgebraDefinition{pos}">\n  <Heading>Definition of {algebraDisplayNames[pos]}</Heading>\n{algebra_def[pos]}\n</Subsection>\n'
-        d['ADDITIONAL_FUNCTIONS'] = f'{d["ADDITIONAL_FUNCTIONS"]}\nAllSmall{base_names[pos]} is an accessor function for accessing the complete list of non-isomorphic {display_name_lc[pos]} models from order {domain_range[pos][0]} to {domain_range[pos][1]}.<P/>\n'
-        d['ADDITIONAL_ACCESSORS'] = f'{d["ADDITIONAL_ACCESSORS"]}\n\n<Section Label = "Algebra Functions{pos}"><Heading>Accessing Small {algebraDisplayNames[pos]}</Heading>\nAllSmall{base_names[pos]} is an accessor function for accessing the complete list of non-isomorphic {display_name_lc[pos]} of orders {domain_range[pos][0]} to {domain_range[pos][1]}.\n\n<#Include Label = "AllSmall{base_names[pos]}">\n\n{message[pos]}, as given in Section <Ref Sect="AlgebraDefinition{pos}"/>.</Section>'
-    
+        "Prefix": prefix,
+        "AlgebraName": algebra_name,
+        "AlgebraDisplayName": algebraDisplayName,
+        "AlgebraDisplayNameLowerCase": display_name_lc,
+        "FunctionName": f"AllSmall{base_name}",
+        "OperationNames": message,
+        "AlgebraDefinition": algebra_def
+    } 
     doc_files = ['main.xml', 'z-chap01.xml', 'z-chap02.xml', 'title.xml']
     for x in doc_files:
         write_doc(d, os.path.join(gap_doc_templates_dir, 'doc', x),
@@ -187,23 +167,23 @@ def gen_data_file(OtherAuthorNamesLines, AllAuthorsListString, gap_templates_dir
     os.remove(data_file)
 
 
-def gen_tst(AllAuthorsListString, algebra_names, base_names, num_in_orders, domain_range, gap_templates_dir, gap_top_dir, config):
+def gen_tst(AllAuthorsListString, algebra_name, base_name, num_in_orders, domain_range, gap_templates_dir, gap_top_dir, config):
     """
     Args:
-        algebra_names (List[str]): list of algebra names
-        base_names (List[str]): list of base names, one for each algebra
-        num_in_orders (List[List[int]]): number of models for each order in the algebra, one list for each algebra
-        domain_range (List[List[int]]): min and max domain sizes
+        algebra_name (str): algebra name
+        base_names (str): base name of algebra
+        num_in_orders (List[int]): number of models for each order in the algebra
+        domain_range (List[int]): min and max domain size
     """
     tst_template_dir = os.path.join(gap_templates_dir, 'tst')
     tst_dir = os.path.join(gap_top_dir, 'tst')
     packageName = config['ROOT']['PackageName']
     d = {
-        "FunctionName": f"AllSmall{base_names[0]}",
+        "FunctionName": f"AllSmall{base_name}",
         "PackageName": packageName,
-        "AlgebraName": algebra_names[0],
-        'MinDomainSize': domain_range[0][0],
-        "MinAlgebraSize": num_in_orders[0][0],
+        "AlgebraName": algebra_name,
+        'MinDomainSize': domain_range[0],
+        "MinAlgebraSize": num_in_orders[0],
         "AllAuthorsListString": AllAuthorsListString
     }
     tst_files = ['quickcheck.g', 'testall.g']
@@ -256,12 +236,12 @@ def authors(config):
     return author1, AllPersonsLines, AllAuthorsListString, OtherAuthorNamesLines, OtherAuthorsLines
     
 
-def gen_gap_package(algebra_names, base_names, display_names_lc, domain_range, prefixes, num_in_orders, func_names, config):
+def gen_gap_package(algebra_name, base_name, display_name_lc, domain_range, prefix, num_in_orders, func_names, config):
     """
     Args:
-        algebra_names (list): list algebrar names
-        base_names (List[str]): list of base names, one for each sub-algebra
-        display_names_lc (List[str]): display names of algebrar, in lowe case
+        algebra_name (str): algebra name
+        base_name (str):  base name for the algebra
+        display_names_lc (str): display names of algebra, in lower case
         num_in_orders:
         func_names (List(str)):  list of comma-separated list of functions in the definition of the algebra
         config (dict): configurations
@@ -276,16 +256,15 @@ def gen_gap_package(algebra_names, base_names, display_names_lc, domain_range, p
     author1, AllPersonsLines, AllAuthorsListString, OtherAuthorNamesLines, OtherAuthorsLines = authors(config)
   
     gen_main_doc(AllPersonsLines, OtherAuthorsLines, OtherAuthorNamesLines, AllAuthorsListString, func_names, gap_templates_dir,
-                 gap_top_dir, algebra_names, base_names, display_names_lc, domain_range, prefixes, config)
+                 gap_top_dir, algebra_name, base_name, display_name_lc, domain_range, prefix, config)
 
-    for pos in range(0, len(algebra_names)):
-        gen_lib_code(author1, OtherAuthorNamesLines, num_in_orders[pos], gap_templates_dir, gap_top_dir,
-                     algebra_names[pos], base_names[pos], display_names_lc[pos], domain_range[pos], prefixes[pos], config)
-        gen_data_file(OtherAuthorNamesLines, AllAuthorsListString, gap_templates_dir, gap_top_dir, 
-                      algebra_names[pos], domain_range[pos], num_in_orders[pos], prefixes[pos], config)
+    gen_lib_code(author1, OtherAuthorNamesLines, num_in_orders, gap_templates_dir, gap_top_dir,
+                 algebra_name, base_name, display_name_lc, domain_range, prefix, config)
+    gen_data_file(OtherAuthorNamesLines, AllAuthorsListString, gap_templates_dir, gap_top_dir, 
+                  algebra_name, domain_range, num_in_orders, prefix, config)
         
 
-    gen_tst(AllAuthorsListString, algebra_names, base_names, num_in_orders, domain_range, gap_templates_dir, gap_top_dir, config)
+    gen_tst(AllAuthorsListString, algebra_name, base_name, num_in_orders, domain_range, gap_templates_dir, gap_top_dir, config)
     gen_package_doc(gap_top_dir, config);
     
 

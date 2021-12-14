@@ -57,7 +57,6 @@ def gen_gaplib(argv):
     # e.g. outfiles = [['of_2_0.out', 'of_3_0.out'], ['of_2_1.out', 'of_3_1.out']]
     
     func_names = list()   # names of the operations in the model, such as *, v, -, and ^.
-    num_in_orders = list()
     mace_output_dir, outfiles = gen_mace_models(algebraName, config["MACE"], prebuilt_dir)
 
     from_order = int(config["MACE"]['MinDomainSize'])
@@ -66,7 +65,6 @@ def gen_gaplib(argv):
     print(f"Debug Total number of files: {len(outfiles)*len(outfiles[0])}")
 
     # delete iso models, and write the non-iso models for each order calculated
-    alg_func_names = list()
     for order in range(from_order, to_order+1):
         order_n_files = outfiles[order-from_order]
         gen_non_iso(config['NONISO'], order, mace_output_dir, order_n_files, prebuilt_dir)
@@ -76,17 +74,17 @@ def gen_gaplib(argv):
         read_files = glob.glob(all_non_iso_files)
         write_file = os.path.join(final_model_dir, basename + ".g")
         with open(write_file, "w") as outfile:
-            extract_mace_models(read_files, outfile, alg_func_names)
-    func_names.append(", ".join(alg_func_names))
+            extract_mace_models(read_files, outfile, func_names)
+    print(func_names)
     print(f"{datetime.now()} Done removing isomorphic models, and writing non-iso models by model orders")
-    num_in_orders.append( encode_data(algebraName, final_model_dir, from_order, to_order) )
+    num_in_orders = encode_data(algebraName, final_model_dir, from_order, to_order)
 
     prefix = config['GAP_PACKAGE']['Prefix']
     base_name = config['ROOT']['BaseName']
     display_name_lc = config['ROOT']['AlgebraDisplayNameLowerCase']
-    gen_gap_package(algebraName, base_name, display_name_lc, domain_range, prefix, num_in_orders, func_names, config)
+    gen_gap_package(algebraName, base_name, display_name_lc, [from_order, to_order], prefix, num_in_orders, func_names, config)
 
-    print(f"{datetime.now()} Finished generating GAP package for small {algebraDisplayNames[0]}")
+    print(f"{datetime.now()} Finished generating GAP package for small {algebraDisplayName}")
     
 
 if __name__ == "__main__":

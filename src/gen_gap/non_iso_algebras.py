@@ -19,6 +19,7 @@ def gen_non_iso(config, order, input_dir, input_files, prebuilt_dir):
         order (int):  order of the algebra
         input_dir (str): input directory
         input_files (List): list of input files, each file is of the format prefix_<x> where x is a number
+        prebuilt_dir (str): directory holding all prebuilt files
     """
     isofilter = config['Filter']
     min_count = int(config['MinModelsInFile'])
