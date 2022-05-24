@@ -104,12 +104,13 @@ def gen_main_doc(AllPersonsLines, OtherAuthorsLines, OtherAuthorNamesLines, AllA
     
    
 def gen_lib_code(author1, OtherAuthorNamesLines, num_in_orders, gap_doc_templates_dir,
-                 gap_top_dir, algebra_name, base_name, display_name_lc, domain_range, prefix, config):
+                 gap_top_dir, algebra_name, base_name, display_name_lc, singularAlgebraName, domain_range, prefix, config):
     lib_dir = os.path.join(gap_top_dir, 'lib')
     lib_template_dir = os.path.join(gap_doc_templates_dir, 'lib')
     
     d = {
         "FunctionName": f"AllSmall{base_name}",
+        "SingularAlgebraName": singularAlgebraName,
         "PackageName": config['ROOT']['PackageName'],
         "AlgebraName": algebra_name,
         'MinDomainSize': domain_range[0],
@@ -167,7 +168,7 @@ def gen_data_file(OtherAuthorNamesLines, AllAuthorsListString, gap_templates_dir
     os.remove(data_file)
 
 
-def gen_tst(AllAuthorsListString, algebra_name, base_name, num_in_orders, domain_range, gap_templates_dir, gap_top_dir, config):
+def gen_tst(AllAuthorsListString, algebra_name, base_name, singularAlgebraName, num_in_orders, domain_range, gap_templates_dir, gap_top_dir, config):
     """
     Args:
         algebra_name (str): algebra name
@@ -180,6 +181,7 @@ def gen_tst(AllAuthorsListString, algebra_name, base_name, num_in_orders, domain
     packageName = config['ROOT']['PackageName']
     d = {
         "FunctionName": f"AllSmall{base_name}",
+        "SingularAlgebraName": singularAlgebraName,
         "PackageName": packageName,
         "AlgebraName": algebra_name,
         'MinDomainSize': domain_range[0],
@@ -236,12 +238,13 @@ def authors(config):
     return author1, AllPersonsLines, AllAuthorsListString, OtherAuthorNamesLines, OtherAuthorsLines
     
 
-def gen_gap_package(algebra_name, base_name, display_name_lc, domain_range, prefix, num_in_orders, func_names, config):
+def gen_gap_package(algebra_name, base_name, display_name_lc, singularAlgebraName, domain_range, prefix, num_in_orders, func_names, config):
     """
     Args:
         algebra_name (str): algebra name
         base_name (str):  base name for the algebra
         display_names_lc (str): display names of algebra, in lower case
+        singularAlgebraName (str): algebra name (singular). E.g. meadow, semigroup
         num_in_orders:
         func_names (List(str)):  list of comma-separated list of functions in the definition of the algebra
         config (dict): configurations
@@ -259,12 +262,12 @@ def gen_gap_package(algebra_name, base_name, display_name_lc, domain_range, pref
                  gap_top_dir, algebra_name, base_name, display_name_lc, domain_range, prefix, config)
 
     gen_lib_code(author1, OtherAuthorNamesLines, num_in_orders, gap_templates_dir, gap_top_dir,
-                 algebra_name, base_name, display_name_lc, domain_range, prefix, config)
+                 algebra_name, base_name, display_name_lc, singularAlgebraName, domain_range, prefix, config)
     gen_data_file(OtherAuthorNamesLines, AllAuthorsListString, gap_templates_dir, gap_top_dir, 
                   algebra_name, domain_range, num_in_orders, prefix, config)
         
 
-    gen_tst(AllAuthorsListString, algebra_name, base_name, num_in_orders, domain_range, gap_templates_dir, gap_top_dir, config)
+    gen_tst(AllAuthorsListString, algebra_name, base_name, singularAlgebraName, num_in_orders, domain_range, gap_templates_dir, gap_top_dir, config)
     gen_package_doc(gap_top_dir, config);
     
 

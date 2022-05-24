@@ -37,7 +37,7 @@ SourceRepository := rec(
     Type := "git",
     URL := "$SourceRepository",
 ),
-IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
+IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "issues" ),
 ArchiveURL      := Concatenation( ~.SourceRepository.URL,
                                  "/releases/download/v", ~.Version,
                                  "/${PackageName}-", ~.Version ),

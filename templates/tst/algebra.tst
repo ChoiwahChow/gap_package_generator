@@ -9,5 +9,7 @@ gap> START_TEST("Algebra(s), $PackageName: testing retrieval of non-isomorphic m
 # Simple Length Test 
 gap> Length($FunctionName($MinDomainSize));
 ${MinAlgebraSize}
+gap> Is$SingularAlgebraName($FunctionName(${MinDomainSize})[1]);
+true
 gap> STOP_TEST( "algebra.tst", 100000 );
 

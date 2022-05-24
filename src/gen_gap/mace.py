@@ -46,7 +46,7 @@ def run_mace(mace4exec, skipOrders, partition_id, input_dir, input_files, min_do
                             capture_output=True, text=True, check=False, shell=True)
         
         all_logs.append([cp.returncode, cp.stdout, cp.stderr])
-        shutil.move('mace4_models.txt', os.path.join(output_file_path))
+        shutil.move('models.out', os.path.join(output_file_path))
     return all_out_files, all_logs
 
 

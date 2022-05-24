@@ -2,7 +2,7 @@
 LoadPackage("$PackageName");;
 
 
-test_semigroups_g := function(size, count)
+test_${FunctionName}_g := function(size, count)
 	local  a, b, c, x;
 	a := $FunctionName(size);
 	if Length(a) <> count then

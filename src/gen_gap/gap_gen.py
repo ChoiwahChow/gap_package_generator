@@ -82,7 +82,8 @@ def gen_gaplib(argv):
     prefix = config['GAP_PACKAGE']['Prefix']
     base_name = config['ROOT']['BaseName']
     display_name_lc = config['ROOT']['AlgebraDisplayNameLowerCase']
-    gen_gap_package(algebraName, base_name, display_name_lc, [from_order, to_order], prefix, num_in_orders, func_names, config)
+    singularAlgebraName = config['ROOT']['SingularAlgebraName']
+    gen_gap_package(algebraName, base_name, display_name_lc, singularAlgebraName, [from_order, to_order], prefix, num_in_orders, func_names, config)
 
     print(f"{datetime.now()} Finished generating GAP package for small {algebraDisplayName}")
     
