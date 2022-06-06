@@ -20,7 +20,7 @@
 
   <Section Label = "dependency">
 	<Heading>Dependency</Heading>
-	This package has dependencies on the Magmaut packages.
+	This package has dependencies on the Magmaut package.
 	
   </Section>
 
