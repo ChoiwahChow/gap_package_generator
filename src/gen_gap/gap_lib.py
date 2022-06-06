@@ -60,6 +60,7 @@ def gen_main_doc(AllPersonsLines, OtherAuthorsLines, OtherAuthorNamesLines, AllA
         algebra_def = "<P/>".join(fp.read().splitlines())
     message = f"The output {display_name_lc} are represented by its operation table for {', '.join(func_names)}"
     algebraDisplayName = root_config['AlgebraDisplayName']
+    singularAlgebraName = root_config['SingularAlgebraName']
     package_name = root_config['PackageName']
     d = {
         "Author1": root_config['Author1'],
@@ -82,6 +83,7 @@ def gen_main_doc(AllPersonsLines, OtherAuthorsLines, OtherAuthorNamesLines, AllA
         "AlgebraName": algebra_name,
         "AlgebraDisplayName": algebraDisplayName,
         "AlgebraDisplayNameLowerCase": display_name_lc,
+        "SingularAlgebraName": singularAlgebraName,
         "FunctionName": f"AllSmall{base_name}",
         "OperationNames": message,
         "AlgebraDefinition": algebra_def

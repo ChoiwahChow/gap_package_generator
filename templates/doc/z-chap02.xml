@@ -8,8 +8,19 @@
 	
     <#Include Label = "$FunctionName">
     
-    $OperationNames, as given in Section <Ref Sect="AlgebraDefinition"/>.
-	        
+    $OperationNames, as given in Section <Ref Sect="AlgebraDefinition"/>.  
+     
+  </Section> 
+      
+  <Section Label = "Algebra Checking Functions">
+    <Heading>Checking Models of Small $AlgebraDisplayName</Heading>
+    
+	"Is$SingularAlgebraName" is a function for checking a model against the complete list of
+	non-isomorphic $AlgebraDisplayName of orders $MinDomainSize to $MaxDomainSize. It
+	returns true if the model is a Small $AlgebraDisplayName, false otherwise.
+	
+    <#Include Label = "Is$SingularAlgebraName">
+    
   </Section>
 
   <!--**********************************************************************-->
