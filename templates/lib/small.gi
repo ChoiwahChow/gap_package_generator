@@ -42,7 +42,7 @@ end );
 #F  $FunctionName( <multiplcation_table> )
 ##
 
-InstallGlobalFunction( "Is$SingularAlgebraName",
+InstallGlobalFunction( "IsSmall$SingularAlgebraName",
 function( m )
 	local el;
 	if IsList(m[1][1]) then
