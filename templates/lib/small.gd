@@ -32,20 +32,20 @@ DeclareGlobalFunction( "$FunctionName" );
 
 ###########################################################################
 ##
-##  <#GAPDoc Label="IsSmall$SingularAlgebraName">
+##  <#GAPDoc Label="IsASmall$SingularAlgebraName">
 ##  <ManSection>
-##  <Func Name="IsSmall$SingularAlgebraName" Arg="m"/>
+##  <Func Name="IsASmall$SingularAlgebraName" Arg="m"/>
 ##  <Description>
 ##  This function checks whether <M><A>m</A></M>, which must be a multiplication table, is isomorphic to a $SingularAlgebraName in the library.<P/>
 ##
 ##  No check is performed to verify that <A>m</A> is a valid argument. <P/>
 ##  <Example><![CDATA[
-##  gap> IsSmall$SingularAlgebraName($FunctionName(${MinDomainSize})[1]);
+##  gap> IsASmall$SingularAlgebraName($FunctionName(${MinDomainSize})[1]);
 ##  true
 ##  ]]></Example>
 ##  </Description>
 ##  </ManSection>
 ##  <#/GAPDoc>
 
-DeclareGlobalFunction( "IsSmall$SingularAlgebraName" );
+DeclareGlobalFunction( "IsASmall$SingularAlgebraName" );
 #############################################################################
