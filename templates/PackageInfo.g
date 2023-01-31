@@ -61,7 +61,7 @@ PackageDoc := rec(
 
 Dependencies := rec(
   GAP := ">=4.10",
-  NeededOtherPackages := [],
+  NeededOtherPackages := [["magmaut", ">=0.0.1"]],
   SuggestedOtherPackages := [],
   ExternalConditions := []
 ),
