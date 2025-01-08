@@ -18,7 +18,7 @@ import shutil
 from gap_lib import gen_gap_package
 from mace import gen_mace_models
 from mace_to_gap import extract_mace_models
-from non_iso_algebras import gen_non_iso
+# from non_iso_algebras import gen_non_iso
 from encoder import encode_data
 
 
@@ -39,11 +39,11 @@ def gen_gaplib(argv):
     print(f"\n{datetime.now()}** Started generating GAP package for small {algebraDisplayName}\n")
 
     final_model_dir = root_config['NonIsoDir']
-    non_iso_out_dir = config['NONISO']['OutputDir']
+    # non_iso_out_dir = config['NONISO']['OutputDir']
     mace_output_dir = config['MACE']['OutputDir']
     gap_lib_dir = f"{config['ROOT']['PackageName']}-{config['ROOT']['Version']}"
     log_dir = "logs"
-    all_dirs = [mace_output_dir, gap_lib_dir, non_iso_out_dir, log_dir, final_model_dir]
+    all_dirs = [mace_output_dir, gap_lib_dir, log_dir, final_model_dir]  # non_iso_out_dir
     for x in all_dirs:
         shutil.rmtree(x, ignore_errors=True)
     for x in all_dirs:
@@ -67,10 +67,11 @@ def gen_gaplib(argv):
     # delete iso models, and write the non-iso models for each order calculated
     for order in range(from_order, to_order+1):
         order_n_files = outfiles[order-from_order]
-        gen_non_iso(config['NONISO'], order, mace_output_dir, order_n_files, prebuilt_dir)
+        # gen_non_iso(config['NONISO'], order, mace_output_dir, order_n_files, prebuilt_dir)
         
         basename = order_n_files[0][:-6]           # remove ending "_0.out"
-        all_non_iso_files = os.path.join(non_iso_out_dir, basename + "_*.out.f")
+        all_non_iso_files = os.path.join(mace_output_dir, order_n_files[0])  # there is only 1 file
+        print(f"******************* {all_non_iso_files}")
         read_files = glob.glob(all_non_iso_files)
         write_file = os.path.join(final_model_dir, basename + ".g")
         with open(write_file, "w") as outfile:

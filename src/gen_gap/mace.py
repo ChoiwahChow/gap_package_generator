@@ -42,7 +42,7 @@ def run_mace(mace4exec, skipOrders, partition_id, input_dir, input_files, min_do
         # cp = subprocess.run(f'mace4 -n {domain_size} -N {domain_size} -f  {" ".join(all_inputs)} | interpformat > {output_file_path}',
         #                     capture_output=True, text=True, check=False, shell=True)  
 
-        cp = subprocess.run(f'{mace4exec} -n {domain_size} -N {domain_size} -m-1 -A1 -f  {" ".join(all_inputs)} 2>{output_file_path}',
+        cp = subprocess.run(f'{mace4exec} -n {domain_size} -N {domain_size} -m-1 -W-1 -A-1 -f  {" ".join(all_inputs)} 2>{output_file_path}',
                             capture_output=True, text=True, check=False, shell=True)
         
         all_logs.append([cp.returncode, cp.stdout, cp.stderr])
