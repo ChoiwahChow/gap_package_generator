@@ -11,7 +11,7 @@ Under the top directory, there are `inputs` directory that holds all Mace4 input
 In the following example, `semi.ini` is a configuration file containing all the input parameters and options for running the script.
 The system will automatically generate the required working and outputs directories.
 
-At the top directory, run the command:
+At the top directory, run the command (replace semi.ini with your own init file):
 
 ```text
 ./src/gen_gap/gap_gen.py semi.ini
